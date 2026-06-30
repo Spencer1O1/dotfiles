@@ -1,5 +1,5 @@
 function wsld {
-  wsl "~"
+  wsl.exe --cd "~"
 }
 
 function apt {
