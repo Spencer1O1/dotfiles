@@ -43,3 +43,6 @@ function prompt {
   [Console]::ResetColor()
   return " "
 }
+
+Set-PSReadLineKeyHandler -Key Ctrl+f -Function AcceptSuggestion
+Set-PSReadLineKeyHandler -Key Alt+f -Function AcceptNextSuggestionWord
