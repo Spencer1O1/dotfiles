@@ -1,16 +1,28 @@
 return {
   {
-    "rose-pine/neovim",
-    name = "rose-pine",
+    "folke/tokyonight.nvim",
+    -- "rose-pine/neovim",
+    -- name = "rose-pine",
     lazy = false,
     priority = 1000,
     config = function()
-      require("rose-pine").setup({
-        disable_background = true,
-        disable_float_background = true,
+      require("tokyonight").setup({
+        style = "night",
+        transparent = true,
+        styles = {
+          sidebars = "transparent",
+          floats = "transparent",
+        },
       })
 
-      vim.cmd.colorscheme("rose-pine")
+      vim.cmd.colorscheme("tokyonight")
+
+      -- require("rose-pine").setup({
+      --   disable_background = true,
+      --   disable_float_background = true,
+      -- })
+
+      -- vim.cmd.colorscheme("rose-pine")
 
       local transparent_groups = {
         "Normal",
