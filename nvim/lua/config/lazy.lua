@@ -1,1 +1,0 @@
--- Plugin manager setup will go here later.
