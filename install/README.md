@@ -13,3 +13,8 @@ ln -s ~/dotfiles/scripts/linux/dotfiles ~/.local/bin/dotfiles
 ```
 (this assumes that dotfiles is installed at $HOME)
 
+## After cloning the repo, in Windows:
+1. Symlink the powershell profile (requires admin). Or simply copy.
+```powershell
+New-Item -ItemType SymbolicLink -Path $PROFILE -Target "$HOME\dotfiles\pwsh\Microsoft.PowerShell_profile.ps1"
+```
