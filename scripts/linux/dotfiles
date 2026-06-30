@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Pulling WSL dotfiles..."
+cd "$HOME/dotfiles"
+git restore nvim/lazy-lock.json 2>/dev/null || true
+git pull
+
+echo
+echo "Pulling Windows dotfiles..."
+powershell.exe -NoProfile -Command 'cd $HOME\dotfiles; git restore nvim/lazy-lock.json 2>$null; git pull'
+
+echo
+echo "Done."

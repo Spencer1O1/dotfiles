@@ -1,0 +1,10 @@
+# Add local scripts to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# Custom prompt
+prompt_host="$(hostname)"
+if [ "${prompt_host,,}" = "esecoso" ]; then
+  prompt_host="ubuntu"
+fi
+
+export PS1="\[\e[1;32m\]\u@$prompt_host\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ "
