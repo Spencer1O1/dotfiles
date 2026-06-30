@@ -1,5 +1,5 @@
 function wsld {
-  wsl ~
+  wsl "~"
 }
 
 function apt {
