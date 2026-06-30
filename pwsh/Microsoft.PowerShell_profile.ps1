@@ -2,6 +2,18 @@ function wsld {
   wsl ~
 }
 
+function apt {
+  winget @args
+}
+
+function apt-update {
+  winget source update
+}
+
+function apt-upgrade {
+  winget upgrade --all
+}
+
 function prompt {
   $user = $env:USERNAME.ToLower()
 
