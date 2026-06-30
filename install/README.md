@@ -18,3 +18,7 @@ ln -s ~/dotfiles/scripts/linux/dotfiles ~/.local/bin/dotfiles
 ```powershell
 New-Item -ItemType SymbolicLink -Path $PROFILE -Target "$HOME\dotfiles\pwsh\Microsoft.PowerShell_profile.ps1"
 ```
+2. Symlink the dotfiles script
+```powershell
+New-Item -ItemType SymbolicLink -Path "$HOME\bin\dotfiles.cmd" -Target "$HOME\dotfiles\scripts\windows\dotfiles.cmd"
+```
