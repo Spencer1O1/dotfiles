@@ -19,7 +19,7 @@ return {
 				group = "git",
 				desc = "LazyGit",
 			}),
-			keymap.leader("f", "<cmd>LazyGitCurrentFile<CR>", {
+			keymap.leader("f", "<cmd>LazyGitFilterCurrentFile<CR>", {
 				lazy = true,
 				group = "git",
 				desc = "LazyGit (current file)",
