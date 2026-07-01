@@ -1,6 +1,9 @@
 local keymap = require("spencerls.keymap")
 local nav_telescope = require("spencerls.nav.telescope")
-local builtin = require("telescope.builtin")
+
+local function builtin()
+	return require("telescope.builtin")
+end
 
 return {
 	{
@@ -10,10 +13,18 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		keys = {
-			keymap.leader("f", builtin.find_files, { lazy = true, desc = "Find files" }),
-			keymap.leader("/", builtin.live_grep, { lazy = true, desc = "Fuzzy grep" }),
-			keymap.leader("b", builtin.buffers, { lazy = true, desc = "Find buffers" }),
-			keymap.leader("?", builtin.help_tags, { lazy = true, desc = "Help" }),
+			keymap.leader("f", function()
+				builtin().find_files()
+			end, { lazy = true, desc = "Find files" }),
+			keymap.leader("/", function()
+				builtin().live_grep()
+			end, { lazy = true, desc = "Fuzzy grep" }),
+			keymap.leader("b", function()
+				builtin().buffers()
+			end, { lazy = true, desc = "Find buffers" }),
+			keymap.leader("?", function()
+				builtin().help_tags()
+			end, { lazy = true, desc = "Help" }),
 		},
 		opts = {
 			defaults = {
