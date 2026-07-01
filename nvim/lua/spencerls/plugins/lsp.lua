@@ -47,7 +47,7 @@ return {
 				vim.lsp.buf.document_symbol({ on_list = nav.o.fill })
 			end, {
 				lazy = true,
-				desc = "Gather document symbols",
+				desc = "Gather symbols",
 			}),
 		},
 		config = function()
@@ -85,7 +85,7 @@ return {
 					return
 				end
 				vim.diagnostic.open_float(bufnr, { scope = "line", focus = false })
-			end, { desc = "Diagnostic float" })
+			end, { desc = "Diagnostics" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event)

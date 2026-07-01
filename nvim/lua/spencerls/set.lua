@@ -28,3 +28,14 @@ vim.opt.updatetime = 50
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- undotree (and :diff) need GNU diff; Git for Windows ships it but not on PATH.
+if vim.fn.has("win32") == 1 and vim.fn.executable("diff") == 0 then
+	local git = vim.fn.exepath("git")
+	if git ~= "" then
+		local git_usrs_bin = vim.fn.fnamemodify(git, ":h:h") .. "/usr/bin"
+		if vim.fn.isdirectory(git_usrs_bin) == 1 then
+			vim.env.PATH = git_usrs_bin .. ";" .. (vim.env.PATH or "")
+		end
+	end
+end

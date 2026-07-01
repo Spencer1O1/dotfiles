@@ -5,27 +5,31 @@ local keymap = require("spencerls.keymap")
 keymap.leader("w", "<cmd>w<CR>", { desc = "Save file" })
 keymap.leader("q", "<cmd>q<CR>", { desc = "Quit" })
 
-keymap.leader("p", [["_dP]], {
-	mode = "x",
-	desc = "Paste without replacing register",
+keymap.leader("p", [["+p]], {
+	mode = { "n", "v" },
+	desc = "Paste from clipboard",
+})
+keymap.leader("p", [[<C-r>+]], {
+	mode = "i",
+	desc = "Paste from clipboard",
 })
 
 keymap.leader("y", [["+y]], {
 	mode = { "n", "v" },
-	desc = "Copy to system clipboard",
+	desc = "Copy to clipboard",
 })
 keymap.leader("d", [["_d]], {
 	mode = { "n", "v" },
-	desc = "Delete without replacing register",
+	desc = "Delete without copy",
 })
 
-keymap.leader("r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace" })
-keymap.leader("X", "<cmd>!chmod +x %<CR>", { desc = "Make executable" })
+keymap.leader("r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace text" })
+keymap.leader("X", "<cmd>!chmod +x %<CR>", { desc = "Make executable (linux)" })
 
 -- Editing motion tweaks
 
-keymap.set("J", ":m '>+1<CR>gv=gv", { mode = "v", desc = "Move selection down" })
-keymap.set("K", ":m '<-2<CR>gv=gv", { mode = "v", desc = "Move selection up" })
+keymap.set("J", ":m '>+1<CR>gv=gv", { mode = "v", desc = "Move code down" })
+keymap.set("K", ":m '<-2<CR>gv=gv", { mode = "v", desc = "Move code up" })
 keymap.set("Y", "yg$", { desc = "Yank to end of line" })
 keymap.set("J", "mzJ`z", { desc = "Join line and keep cursor" })
 keymap.set("<C-d>", "<C-d>zz", { desc = "Half-page down centered" })

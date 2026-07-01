@@ -11,9 +11,9 @@ return {
 		},
 		keys = {
 			keymap.leader("f", builtin.find_files, { lazy = true, desc = "Find files" }),
-			keymap.leader("/", builtin.live_grep, { lazy = true, desc = "Live grep" }),
+			keymap.leader("/", builtin.live_grep, { lazy = true, desc = "Fuzzy grep" }),
 			keymap.leader("b", builtin.buffers, { lazy = true, desc = "Find buffers" }),
-			keymap.leader("h", builtin.help_tags, { lazy = true, desc = "Help tags" }),
+			keymap.leader("?", builtin.help_tags, { lazy = true, desc = "Help" }),
 		},
 		opts = {
 			defaults = {

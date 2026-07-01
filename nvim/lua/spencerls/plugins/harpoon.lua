@@ -8,10 +8,21 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		keys = {
-			keymap.set("<C-e>", function()
+			keymap.leader("a", function()
+				require("harpoon"):list():add()
+			end, {
+				lazy = true,
+				group = "harpoon",
+				desc = "Harpoon add file",
+			}),
+			keymap.leader("", function()
 				local harpoon = require("harpoon")
 				harpoon.ui:toggle_quick_menu(harpoon:list())
-			end, { lazy = true, desc = "Harpoon menu" }),
+			end, {
+				lazy = true,
+				group = "harpoon",
+				desc = "Harpoon menu",
+			}),
 			keymap.set("<C-h>", function()
 				require("harpoon"):list():select(1)
 			end, { lazy = true, desc = "Harpoon file 1" }),

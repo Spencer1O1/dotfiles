@@ -3,21 +3,20 @@
 --- Navigation: see nav.lua (3 types — qf hub, loclist hub, in-buffer motion).
 ---
 ---   set(lhs, rhs, opts?)       — any key chord
----   leader(suffix, rhs, opts?) — <leader> + suffix; opts.group → <leader>g… / <leader>l…
+---   leader(suffix, rhs, opts?) — <leader> + suffix; opts.group → <leader>g… / <leader>l… / <leader>h
 ---
 --- opts:
 ---   lazy   = true  return a lazy.nvim keys spec instead of binding now
 ---   buffer = bufnr buffer-local bind
----   group  = "git" | "language"  (leader only; which-key prefix)
+---   group  = "git" | "language" | "harpoon"  (leader only; which-key prefix)
 ---   mode, desc, silent, …        passed to vim.keymap.set
 local M = {}
 
 M.leader_groups = {
 	git = { key = "g", name = "git" },
 	language = { key = "l", name = "language" },
+	harpoon = { key = "h", name = "harpoon" },
 }
-
-local registry = {}
 
 local function caller()
 	local info = debug.getinfo(4, "Sl")

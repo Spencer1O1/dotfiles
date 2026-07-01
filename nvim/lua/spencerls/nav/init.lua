@@ -8,8 +8,8 @@ bind.clear_defaults()
 local hubs = {}
 local M = {}
 
-M.i = list.setup("i", false, "quickfix item", hubs)
-M.o = list.setup("o", true, "location list item", hubs)
+M.i = list.setup("i", false, "result", hubs)
+M.o = list.setup("o", true, "symbol", hubs)
 
 motions.setup()
 list.setup_qf_autocmd(hubs)
