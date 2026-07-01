@@ -8,10 +8,8 @@ return {
     opts = {
       keymap = {
         preset = "none",
-        -- Keep this aligned with PowerShell: Ctrl+Space opens completion.
-
-        -- Manual menu, like PowerShell Ctrl+J.
-        ["<C-j>"] = {
+        -- Manual menu toggle — matches PSReadLine MenuComplete on Ctrl+.
+        ["<C-.>"] = {
           function(cmp)
             if cmp.is_menu_visible() then
               return cmp.hide()

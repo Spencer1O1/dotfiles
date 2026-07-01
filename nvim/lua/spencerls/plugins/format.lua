@@ -34,7 +34,7 @@ return {
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     keys = {
-      keymap.lazy_leader("f", function()
+      keymap.leader("f", function()
         local opts = get_format_opts(0)
 
         if opts == nil then
@@ -46,6 +46,7 @@ return {
         require("conform").format(opts)
       end, {
         group = "language",
+        lazy = true,
         mode = { "n", "v" },
         desc = "Format buffer",
       }),

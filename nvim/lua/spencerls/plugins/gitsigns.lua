@@ -17,32 +17,6 @@ return {
 			on_attach = function(bufnr)
 				local gitsigns = require("gitsigns")
 
-				keymap.leader("j", function()
-					if vim.wo.diff then
-						vim.cmd.normal({ "]c", bang = true })
-						return
-					end
-
-					gitsigns.nav_hunk("next")
-				end, {
-					group = "git",
-					buffer = bufnr,
-					desc = "Next git hunk",
-				})
-
-				keymap.leader("k", function()
-					if vim.wo.diff then
-						vim.cmd.normal({ "[c", bang = true })
-						return
-					end
-
-					gitsigns.nav_hunk("prev")
-				end, {
-					group = "git",
-					buffer = bufnr,
-					desc = "Previous git hunk",
-				})
-
 				keymap.leader("s", gitsigns.stage_hunk, {
 					group = "git",
 					buffer = bufnr,

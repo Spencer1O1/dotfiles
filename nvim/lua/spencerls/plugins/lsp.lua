@@ -1,4 +1,5 @@
 local keymap = require("spencerls.keymap")
+local nav = require("spencerls.nav")
 
 local servers = {
 	"lua_ls",
@@ -35,6 +36,20 @@ return {
 
 	{
 		"neovim/nvim-lspconfig",
+		keys = {
+			keymap.leader("i", function()
+				vim.lsp.buf.references(nil, { on_list = nav.i.fill })
+			end, {
+				lazy = true,
+				desc = "Gather references",
+			}),
+			keymap.leader("o", function()
+				vim.lsp.buf.document_symbol({ on_list = nav.o.fill })
+			end, {
+				lazy = true,
+				desc = "Gather document symbols",
+			}),
+		},
 		config = function()
 			vim.lsp.config("lua_ls", {
 				settings = {
@@ -64,37 +79,25 @@ return {
 				callback = function(event)
 					local bufnr = event.buf
 
-					keymap.map("gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
-					keymap.map("gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
-					keymap.map("gi", vim.lsp.buf.implementation, { buffer = bufnr, desc = "Go to implementation" })
-					keymap.map("gr", vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
-					keymap.map("K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })
+					keymap.set("gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+					keymap.set("gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
+					keymap.set("gi", vim.lsp.buf.implementation, { buffer = bufnr, desc = "Go to implementation" })
+					keymap.set("K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })
 
-					keymap.leader(
-						"r",
-						vim.lsp.buf.rename,
-						{ buffer = bufnr, group = "language", desc = "Rename symbol" }
-					)
-					keymap.leader(
-						"a",
-						vim.lsp.buf.code_action,
-						{ buffer = bufnr, group = "language", desc = "Code action" }
-					)
-					keymap.leader(
-						"d",
-						vim.diagnostic.open_float,
-						{ buffer = bufnr, group = "diagnostics", desc = "Open diagnostic" }
-					)
-					keymap.leader(
-						"k",
-						vim.diagnostic.goto_prev,
-						{ buffer = bufnr, group = "diagnostics", desc = "Previous diagnostic" }
-					)
-					keymap.leader(
-						"j",
-						vim.diagnostic.goto_next,
-						{ buffer = bufnr, group = "diagnostics", desc = "Next diagnostic" }
-					)
+					keymap.leader("r", vim.lsp.buf.rename, {
+						group = "language",
+						buffer = bufnr,
+						desc = "Rename symbol",
+					})
+					keymap.leader("a", vim.lsp.buf.code_action, {
+						group = "language",
+						buffer = bufnr,
+						desc = "Code action",
+					})
+					keymap.leader("P", vim.diagnostic.open_float, {
+						buffer = bufnr,
+						desc = "Diagnostic float",
+					})
 				end,
 			})
 
