@@ -18,6 +18,8 @@ M.leader_groups = {
 	harpoon = { key = "h", name = "harpoon" },
 }
 
+local registry = {}
+
 local function caller()
 	local info = debug.getinfo(4, "Sl")
 	return info and (info.short_src .. ":" .. info.currentline) or "unknown"
