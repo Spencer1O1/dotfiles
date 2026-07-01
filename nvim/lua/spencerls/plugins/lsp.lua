@@ -73,7 +73,19 @@ return {
 				underline = true,
 				update_in_insert = false,
 				severity_sort = true,
+				float = {
+					border = "single",
+					source = true,
+				},
 			})
+
+			keymap.leader("P", function()
+				local bufnr = vim.api.nvim_get_current_buf()
+				if #vim.diagnostic.get(bufnr) == 0 then
+					return
+				end
+				vim.diagnostic.open_float(bufnr, { scope = "line", focus = false })
+			end, { desc = "Diagnostic float" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event)
@@ -93,10 +105,6 @@ return {
 						group = "language",
 						buffer = bufnr,
 						desc = "Code action",
-					})
-					keymap.leader("P", vim.diagnostic.open_float, {
-						buffer = bufnr,
-						desc = "Diagnostic float",
 					})
 				end,
 			})
