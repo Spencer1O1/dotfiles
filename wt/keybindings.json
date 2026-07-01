@@ -1,0 +1,18 @@
+[
+  {
+    "id": "Terminal.CopyToClipboard",
+    "keys": "ctrl+c"
+  },
+  {
+    "id": "Terminal.PasteFromClipboard",
+    "keys": "ctrl+v"
+  },
+  {
+    "id": "Terminal.FindText",
+    "keys": "ctrl+/"
+  },
+  {
+    "id": "Terminal.DuplicatePaneAuto",
+    "keys": "alt+shift+d"
+  }
+]
