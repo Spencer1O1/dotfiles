@@ -1,3 +1,18 @@
+local servers = {
+  "lua_ls",
+  "ts_ls",
+  "html",
+  "cssls",
+  "jsonls",
+  "bashls",
+  "pyright",
+  "clangd",
+  "rust_analyzer",
+  "gopls",
+  "phpactor",
+  "tailwindcss",
+}
+
 return {
   {
     "mason-org/mason.nvim",
@@ -11,19 +26,7 @@ return {
       "neovim/nvim-lspconfig",
     },
     opts = {
-      ensure_installed = {
-        "lua_ls",
-        "ts_ls",
-        "html",
-        "cssls",
-        "jsonls",
-        "bashls",
-        "pyright",
-        "clangd",
-        "rust_analyzer",
-        "gopls",
-        "phpactor",
-      },
+      ensure_installed = servers,
       automatic_enable = false,
     },
   },
@@ -31,20 +34,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local servers = {
-        "lua_ls",
-        "ts_ls",
-        "html",
-        "cssls",
-        "jsonls",
-        "bashls",
-        "pyright",
-        "clangd",
-        "rust_analyzer",
-        "gopls",
-        "phpactor",
-      }
-
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
