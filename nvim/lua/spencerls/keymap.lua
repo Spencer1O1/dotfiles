@@ -20,7 +20,7 @@ M.leader_groups = {
 local registry = {}
 
 local function caller()
-	local info = debug.getinfo(3, "Sl")
+	local info = debug.getinfo(4, "Sl")
 	return info and (info.short_src .. ":" .. info.currentline) or "unknown"
 end
 
@@ -39,10 +39,11 @@ end
 local function track(mode, lhs)
 	local modes = type(mode) == "table" and table.concat(mode, ",") or mode
 	local key = modes .. "\0" .. lhs
-	if registry[key] then
+	local where = caller()
+	if registry[key] and registry[key] ~= where then
 		error(string.format("Duplicate %s (%s) — first at %s", lhs, modes, registry[key]))
 	end
-	registry[key] = caller()
+	registry[key] = where
 end
 
 local function bind(lhs, rhs, options)
