@@ -76,5 +76,5 @@ function prompt {
 Set-PSReadLineKeyHandler -Key Ctrl+f -Function AcceptSuggestion
 Set-PSReadLineKeyHandler -Key Alt+f -Function AcceptNextSuggestionWord
 
-# Alt+. for autocomplete menu (Ctrl+. doesn't reach apps on Windows; matches Neovim)
+# Ctrl+. for autocomplete menu (matches Neovim blink.cmp)
 Set-PSReadLineKeyHandler -Chord 'Ctrl+.' -Function MenuComplete
