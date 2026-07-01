@@ -44,5 +44,9 @@ function prompt {
   return " "
 }
 
+# Ctrl+F for ghost text
 Set-PSReadLineKeyHandler -Key Ctrl+f -Function AcceptSuggestion
 Set-PSReadLineKeyHandler -Key Alt+f -Function AcceptNextSuggestionWord
+
+# Ctrl+J for autocomplete menu
+Set-PSReadLineKeyHandler -Key Ctrl+j -Function MenuComplete
