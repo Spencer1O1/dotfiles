@@ -1,7 +1,7 @@
 function wsld {
   wsl.exe --cd "~"
 }
-
+  
 # Replace winget -> apt for fun
 function apt {
   winget @args

@@ -28,9 +28,7 @@ return {
               return cmp.select_next()
             end
 
-            if cmp.is_ghost_text_visible() then
-              return cmp.accept()
-            end
+            return cmp.accept()
           end,
           "fallback",
         },
@@ -75,7 +73,7 @@ return {
       },
 
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets" },
       },
 
       fuzzy = {
