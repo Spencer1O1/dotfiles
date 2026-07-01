@@ -1,3 +1,5 @@
+local keymap = require("spencerls.keymap")
+
 local function has_config(filename, names)
   return vim.fs.find(names, {
     path = filename,
@@ -32,22 +34,21 @@ return {
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     keys = {
-      {
-        "<leader>lf",
-        function()
-          local opts = get_format_opts(0)
+      keymap.lazy_leader("f", function()
+        local opts = get_format_opts(0)
 
-          if opts == nil then
-            vim.notify("No formatter config found for this file", vim.log.levels.WARN)
-            return
-          end
+        if opts == nil then
+          vim.notify("No formatter config found for this file", vim.log.levels.WARN)
+          return
+        end
 
-          opts.async = true
-          require("conform").format(opts)
-        end,
+        opts.async = true
+        require("conform").format(opts)
+      end, {
+        group = "language",
         mode = { "n", "v" },
         desc = "Format buffer",
-      },
+      }),
     },
     opts = {
       formatters = {

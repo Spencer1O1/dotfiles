@@ -1,3 +1,5 @@
+local keymap = require("spencerls.keymap")
+
 local servers = {
   "lua_ls",
   "ts_ls",
@@ -60,21 +62,21 @@ return {
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(event)
-          local opts = { buffer = event.buf }
-
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "Go to references" }))
-
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
+          local bufnr = event.buf
           
-          vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
-          vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
-          vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Open diagnostic" }))
+          keymap.map("gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+          keymap.map("gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
+          keymap.map("gi", vim.lsp.buf.implementation, { buffer = bufnr, desc = "Go to implementation" })
+          keymap.map("gr", vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
 
-          vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
-          vim.keymap.set("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+          keymap.map("K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover documentation" })
+
+          keymap.leader("r", vim.lsp.buf.rename, { buffer = bufnr, group = "language", desc = "Rename symbol" })
+          keymap.leader("a", vim.lsp.buf.code_action, { buffer = bufnr, group = "language", desc = "Code action" })
+          keymap.leader("d", vim.diagnostic.open_float, { buffer = bufnr, group = "language", desc = "Open diagnostic" })
+
+          keymap.map("[d", vim.diagnostic.goto_prev, { buffer = bufnr, desc = "Previous diagnostic" })
+          keymap.map("]d", vim.diagnostic.goto_next, { buffer = bufnr, desc = "Next diagnostic" })
         end,
       })
 

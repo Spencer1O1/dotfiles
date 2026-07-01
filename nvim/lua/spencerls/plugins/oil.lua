@@ -1,3 +1,5 @@
+local keymap = require("spencerls.keymap")
+
 return {
     {
       "stevearc/oil.nvim",
@@ -5,20 +7,11 @@ return {
         "nvim-tree/nvim-web-devicons",
       },
       keys = {
-        {
-          "<leader>fe",
-          function()
+        keymap.lazy_leader("e", function()
             require("oil").open()
-          end,
-          desc = "Open file explorer",
-        },
-        {
-          "-",
-          function()
-            require("oil").open()
-          end,
-          desc = "Open parent directory",
-        },
+        end, {
+            desc = "Explorer",
+        }),
       },
       opts = {
         default_file_explorer = true,
