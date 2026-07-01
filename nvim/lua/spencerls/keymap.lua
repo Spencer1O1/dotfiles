@@ -14,7 +14,7 @@ M.leader_groups = {
   },
 
   diagnostics = {
-    key = "d",
+    key = "x",
     name = "diagnostics",
   },
 }

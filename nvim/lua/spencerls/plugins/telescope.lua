@@ -28,7 +28,7 @@ return {
 			end, {
 				desc = "Help",
 			}),
-			keymap.lazy_leader("d", function()
+			keymap.lazy_leader("/", function()
 				require("telescope.builtin").diagnostics()
 			end, {
 				group = "diagnostics",

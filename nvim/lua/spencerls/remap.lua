@@ -5,33 +5,32 @@ local keymap = require("spencerls.keymap")
 keymap.leader("w", "<cmd>w<CR>", { desc = "Save file" })
 keymap.leader("q", "<cmd>q<CR>", { desc = "Quit" })
 
-keymap.leader("p", [["_dP]], { 
-    mode = "x", 
-    desc = "Paste without replacing register" 
+keymap.leader("p", [["_dP]], {
+	mode = "x",
+	desc = "Paste without replacing register",
 })
 
-keymap.leader("y", [["+y]], { 
-    mode = { "n", "v" },
-    desc = "Copy to system clipboard" 
+keymap.leader("y", [["+y]], {
+	mode = { "n", "v" },
+	desc = "Copy to system clipboard",
 })
-keymap.leader("Y", [["+Y]], { desc = "Copy line to system clipboard" })
-keymap.leader("d", [["_d]], { 
-    mode = { "n", "v" },
-    desc = "Delete without replacing register" 
+keymap.leader("d", [["_d]], {
+	mode = { "n", "v" },
+	desc = "Delete without replacing register",
 })
 
 keymap.leader("r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace" })
-keymap.leader("x", "<cmd>!chmod +x %<CR>", { desc = "Make file executable" })
+keymap.leader("X", "<cmd>!chmod +x %<CR>", { desc = "Make executable" })
 
 -- Primitive mappings
 
-keymap.map("J", ":m '>+1<CR>gv=gv", { 
-    mode = "v", 
-    desc = "Move selection down" 
+keymap.map("J", ":m '>+1<CR>gv=gv", {
+	mode = "v",
+	desc = "Move selection down",
 })
-keymap.map("K", ":m '<-2<CR>gv=gv", { 
-    mode = "v", 
-    desc = "Move selection up" 
+keymap.map("K", ":m '<-2<CR>gv=gv", {
+	mode = "v",
+	desc = "Move selection up",
 })
 
 keymap.map("Y", "yg$", { desc = "Yank to end of line" })
@@ -54,39 +53,40 @@ keymap.map("<M-j>", "<cmd>lnext<CR>zz", { desc = "Next location item" })
 keymap.map("<M-k>", "<cmd>lprev<CR>zz", { desc = "Previous location item" })
 
 local function toggle_quickfix()
-  for _, win in ipairs(vim.fn.getwininfo()) do
-    if win.quickfix == 1 and win.loclist == 0 then
-      vim.cmd("cclose")
-      return
-    end
-  end
+	for _, win in ipairs(vim.fn.getwininfo()) do
+		if win.quickfix == 1 and win.loclist == 0 then
+			vim.cmd("cclose")
+			return
+		end
+	end
 
-  vim.cmd("copen")
+	vim.cmd("copen")
 end
-  
+
 local function has_location_items()
-    return #vim.fn.getloclist(0) > 0
+	return #vim.fn.getloclist(0) > 0
 end
 
 local function toggle_location()
-  if not has_location_items() then
-    return
-  end
+	if not has_location_items() then
+		return
+	end
 
-  for _, win in ipairs(vim.fn.getwininfo()) do
-    if win.quickfix == 1 and win.loclist == 1 then
-      vim.cmd("lclose")
-      return
-    end
-  end
+	for _, win in ipairs(vim.fn.getwininfo()) do
+		if win.quickfix == 1 and win.loclist == 1 then
+			vim.cmd("lclose")
+			return
+		end
+	end
 
-  vim.cmd("lopen")
+	vim.cmd("lopen")
 end
 
 keymap.leader("n", toggle_quickfix, {
-  desc = "Toggle quickfix list",
+	desc = "Toggle quickfix list",
 })
-  
+
 keymap.leader("m", toggle_location, {
-  desc = "Toggle location list",
+	desc = "Toggle location list",
 })
+
