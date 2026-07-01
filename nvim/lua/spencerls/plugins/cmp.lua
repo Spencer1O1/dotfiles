@@ -21,8 +21,8 @@ return {
           end,
         },
 
-        -- When the tab menu is open, Tab cycles. Otherwise, accepts ghost text or behaves as normal tab.
-        ["<Tab>"] = { 
+        -- Menu open: cycle. In snippet: advance. Otherwise: ghost text, then normal tab.
+        ["<Tab>"] = {
           function(cmp)
             if cmp.is_menu_visible() then
               return cmp.select_next()
@@ -30,25 +30,27 @@ return {
 
             return cmp.accept()
           end,
+          "snippet_forward",
           "fallback",
         },
-        ["<S-Tab>"] = { 
+        ["<S-Tab>"] = {
           function(cmp)
             if cmp.is_menu_visible() then
               return cmp.select_prev()
             end
           end,
+          "snippet_backward",
           "fallback",
         },
 
-        -- When the tab menu is open, select the item. Otherwise behave like normal enter.
+        -- When the tab menu is open, accept the selected item. Otherwise behave like normal enter.
         ["<CR>"] = {
           function(cmp)
             if cmp.is_menu_visible() then
               return cmp.accept()
             end
           end,
-          "fallback",
+          "fallback_to_mappings",
         },
 
         -- Reserve Ctrl+F for AI ghost-text acceptance later.
