@@ -33,14 +33,32 @@ function prompt {
   }
 
   $path = (Get-Location).Path
+  $homePath = $HOME.TrimEnd("\")
+  $systemDrive = $env:SystemDrive.TrimEnd(":").ToLower()
 
-  if ($path.StartsWith($HOME)) {
-    $path = "~" + $path.Substring($HOME.Length)
+  if ($path.StartsWith($homePath, [System.StringComparison]::OrdinalIgnoreCase)) {
+    $path = "~" + $path.Substring($homePath.Length)
   }
-  elseif ($path -match "^([A-Za-z]):\\(.*)$") {
+  elseif ($path -match "^([A-Za-z]):\\?(.*)$") {
     $drive = $matches[1].ToLower()
     $rest = $matches[2]
-    $path = "/mnt/$drive/$rest"
+
+    if ($drive -eq $systemDrive) {
+      if ($rest.Length -gt 0) {
+        $path = "/" + $rest
+      }
+      else {
+        $path = "/"
+      }
+    }
+    else {
+      if ($rest.Length -gt 0) {
+        $path = "/mnt/$drive/$rest"
+      }
+      else {
+        $path = "/mnt/$drive"
+      }
+    }
   }
 
   $path = $path.Replace("\", "/")
