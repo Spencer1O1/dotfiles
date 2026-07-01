@@ -2,8 +2,18 @@ function wsld {
   wsl.exe --cd "~"
 }
 
+# Replace winget -> apt for fun
 function apt {
   winget @args
+}
+# Also have to replace winget for "sudo apt"
+function sudo {
+  if ($args[0] -eq "apt") {
+    sudo.exe winget @($args[1..($args.Count - 1)])
+  }
+  else {
+    sudo.exe @args
+  }
 }
 
 function apt-update {
