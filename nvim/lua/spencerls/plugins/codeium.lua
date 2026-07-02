@@ -7,6 +7,23 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		config = function()
+			-- Skip browser UI — print URL, read token from clipboard.
+			package.preload["codeium.views.auth-menu"] = function()
+				return function(_, on_submit)
+					vim.print("Codeium auth URL (open in your browser):")
+					vim.print("https://windsurf.com/vim-show-auth-token?redirect_uri=vim-show-auth-token")
+					vim.print("")
+					vim.fn.input("Copy token to clipboard, then press Enter ")
+
+					local token = vim.fn.getreg("+")
+					if token == "" then
+						token = vim.fn.getreg("*")
+					end
+					on_submit(token)
+				end
+			end
+			package.loaded["codeium.views.auth-menu"] = nil
+
 			require("codeium").setup({
 				enable_cmp_source = false,
 				enable_chat = false,

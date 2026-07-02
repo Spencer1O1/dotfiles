@@ -19,7 +19,10 @@ local servers = {
 return {
 	{
 		"mason-org/mason.nvim",
-		opts = {},
+		opts = {
+			-- Mason bins must win over a broken system node/npm on PATH (common on WSL).
+			PATH = "prepend",
+		},
 	},
 
 	{
