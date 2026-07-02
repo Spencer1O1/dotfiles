@@ -9,7 +9,7 @@ keymap.leader("p", [["+p]], {
 	mode = { "n", "v" },
 	desc = "Paste from clipboard",
 })
-keymap.leader("p", [[<C-r>+]], {
+keymap.set("<C-p>", [[<C-r>+]], {
 	mode = "i",
 	desc = "Paste from clipboard",
 })
