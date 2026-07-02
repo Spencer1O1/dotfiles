@@ -41,6 +41,8 @@ return {
 			for _, group in ipairs(transparent_groups) do
 				vim.api.nvim_set_hl(0, group, { bg = "none" })
 			end
+
+			vim.api.nvim_set_hl(0, "CodeiumSuggestion", { fg = "#557ac9" })
 		end,
 	},
 }
