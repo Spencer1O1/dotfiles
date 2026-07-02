@@ -1,4 +1,5 @@
 local keymap = require("spencerls.keymap")
+local oil_win = require("spencerls.oil_win")
 
 return {
 	{
@@ -6,6 +7,11 @@ return {
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
+		init = function()
+			if vim.fn.has("win32") == 1 then
+				oil_win.patch_drive_listing()
+			end
+		end,
 		keys = {
 			keymap.leader("e", function()
 				require("oil").open()

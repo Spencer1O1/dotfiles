@@ -28,7 +28,13 @@ return {
 			sections = {
 				lualine_a = { "mode" },
 				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = { { "filename", path = 1 } },
+				lualine_c = {
+					{
+						function()
+							return require("spencerls.lualine_path").get()
+						end,
+					},
+				},
 				lualine_x = { "filetype" },
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
