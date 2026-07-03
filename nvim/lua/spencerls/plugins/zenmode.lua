@@ -6,41 +6,54 @@ return {
 			{
 				"<leader>zz",
 				function()
-					require("zen-mode").setup({
-						window = { width = 90, options = {} },
+					require("zen-mode").toggle({
+						window = {
+							width = 80,
+							options = {
+								foldcolumn = "0",
+								number = true,
+								relativenumber = true,
+								colorcolumn = "0",
+							},
+						},
 						on_close = function()
-							vim.wo.wrap = false
-							vim.wo.number = true
-							vim.wo.rnu = true
-							vim.opt.colorcolumn = ""
+							vim.schedule(function()
+								vim.wo.wrap = false
+								vim.wo.number = true
+								vim.wo.relativenumber = true
+								vim.wo.foldcolumn = "1"
+								vim.wo.colorcolumn = "80"
+							end)
 						end,
 					})
-					require("zen-mode").toggle()
-					vim.wo.wrap = false
-					vim.wo.number = true
-					vim.wo.rnu = true
 				end,
-				desc = "Zen mode (90 cols, line numbers)",
+				desc = "Zen mode",
 			},
 			{
 				"<leader>zZ",
 				function()
-					require("zen-mode").setup({
-						window = { width = 80, options = {} },
+					require("zen-mode").toggle({
+						window = {
+							width = 80,
+							options = {
+								foldcolumn = "0",
+								number = false,
+								relativenumber = false,
+								colorcolumn = "0",
+							},
+						},
 						on_close = function()
-							vim.wo.wrap = false
-							vim.wo.number = false
-							vim.wo.rnu = false
-							vim.opt.colorcolumn = "0"
+							vim.schedule(function()
+								vim.wo.wrap = false
+								vim.wo.number = true
+								vim.wo.relativenumber = true
+								vim.wo.foldcolumn = "1"
+								vim.wo.colorcolumn = "80"
+							end)
 						end,
 					})
-					require("zen-mode").toggle()
-					vim.wo.wrap = false
-					vim.wo.number = false
-					vim.wo.rnu = false
-					vim.opt.colorcolumn = "0"
 				end,
-				desc = "Zen mode (80 cols, no line numbers)",
+				desc = "Zen mode (no line numbers)",
 			},
 		},
 	},

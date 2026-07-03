@@ -40,7 +40,18 @@ return {
         return vim.list_contains(require("nvim-treesitter").get_installed("parsers"), lang)
       end
 
-      local function start_ts(event)
+      local function enable_ts_folds(buf)
+        if vim.bo[buf].buftype ~= "" then
+          return
+        end
+        if not vim.treesitter.get_parser(buf, nil, { error = false }) then
+          return
+        end
+        vim.wo.foldmethod = "expr"
+        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+      end
+
+      local function setup_ts_buffer(event)
         local buf = event.buf
         local lang = vim.bo[buf].filetype
         if lang == "" or not has_ts_parser(lang) then
@@ -52,21 +63,19 @@ return {
           end
           return
         end
+
         pcall(vim.treesitter.start, buf, lang)
+        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end
 
       vim.api.nvim_create_autocmd("FileType", {
         pattern = parsers,
-        callback = start_ts,
+        callback = setup_ts_buffer,
       })
 
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = parsers,
+      vim.api.nvim_create_autocmd("BufWinEnter", {
         callback = function(event)
-          local lang = vim.bo[event.buf].filetype
-          if has_ts_parser(lang) then
-            vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-          end
+          enable_ts_folds(event.buf)
         end,
       })
     end,

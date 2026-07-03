@@ -9,6 +9,13 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
+vim.opt.sidescroll = 1
+vim.opt.sidescrolloff = 8
+
+vim.opt.colorcolumn = "80"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldcolumn = "1"
 
 vim.opt.swapfile = false
 vim.opt.backup = false
