@@ -2,19 +2,6 @@ local bind = require("spencerls.nav.bind")
 local util = require("spencerls.nav.util")
 local M = {}
 
-local function diag_extreme(first)
-	local diags = vim.diagnostic.get(0)
-	if #diags == 0 then
-		return
-	end
-	table.sort(diags, function(a, b)
-		return a.lnum == b.lnum and (a.col or 0) < (b.col or 0) or a.lnum < b.lnum
-	end)
-	local d = diags[first and 1 or #diags]
-	vim.api.nvim_win_set_cursor(0, { d.lnum, math.max((d.col or 1) - 1, 0) })
-	util.center()
-end
-
 local function todo_run(first)
 	local ok, todo = pcall(require, "todo-comments")
 	if not ok then
@@ -72,23 +59,6 @@ end
 
 function M.setup()
 	local motions = {
-		p = {
-			"diagnostic",
-			function()
-				vim.diagnostic.goto_next({ wrap = true })
-				util.center()
-			end,
-			function()
-				vim.diagnostic.goto_prev({ wrap = true })
-				util.center()
-			end,
-			function()
-				diag_extreme(false)
-			end,
-			function()
-				diag_extreme(true)
-			end,
-		},
 		t = {
 			"todo",
 			with_todo(function(t)
