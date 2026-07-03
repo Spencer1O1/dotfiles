@@ -1,13 +1,18 @@
-local bind = require("spencerls.nav.bind")
 local util = require("spencerls.nav.util")
 
 local M = {}
 
-local TROUBLE_MODE = "diagnostics"
+local OPEN_OPTS = { focus = false, refresh = false }
 
-local function trouble_open()
+function M.is_open(opts)
 	local ok, trouble = pcall(require, "trouble")
-	return ok and trouble.is_open(TROUBLE_MODE)
+	if not ok then
+		return false
+	end
+	if type(opts) == "string" then
+		opts = { mode = opts }
+	end
+	return trouble.is_open(opts)
 end
 
 local function with_trouble(fn)
@@ -17,26 +22,26 @@ local function with_trouble(fn)
 	end
 end
 
-local function trouble_item_buf(item)
+local function item_buf(item)
 	if item.buf and item.buf > 0 then
 		return item.buf
 	end
 	return vim.fn.bufnr(item.filename, false)
 end
 
-local function trouble_item_index(items)
+local function item_index(items)
 	local bufnr = vim.api.nvim_get_current_buf()
 	local lnum, col = unpack(vim.api.nvim_win_get_cursor(0))
 
 	for i, item in ipairs(items) do
-		if trouble_item_buf(item) == bufnr and item.pos[1] == lnum and item.pos[2] == col then
+		if item_buf(item) == bufnr and item.pos[1] == lnum and item.pos[2] == col then
 			return i
 		end
 	end
 
 	local best_idx, best_score
 	for i, item in ipairs(items) do
-		if trouble_item_buf(item) == bufnr then
+		if item_buf(item) == bufnr then
 			local score = item.pos[1] * 100000 + item.pos[2]
 			local cursor_score = lnum * 100000 + col
 			if score <= cursor_score and (not best_score or score > best_score) then
@@ -49,9 +54,9 @@ local function trouble_item_index(items)
 	return best_idx or 1
 end
 
-local function trouble_jump_wrapped(direction)
+function M.jump_mode(direction, mode)
 	with_trouble(function(trouble)
-		local mode_opts = { mode = TROUBLE_MODE, focus = false, refresh = false }
+		local mode_opts = vim.tbl_extend("force", OPEN_OPTS, { mode = mode })
 		local items = trouble.get_items(mode_opts)
 		if #items == 0 then
 			return
@@ -67,7 +72,7 @@ local function trouble_jump_wrapped(direction)
 		elseif direction == "last" then
 			view:move({ idx = -1, jump = true })
 		else
-			local idx = trouble_item_index(items)
+			local idx = item_index(items)
 			if direction == "next" then
 				idx = idx >= #items and 1 or idx + 1
 			else
@@ -80,8 +85,7 @@ local function trouble_jump_wrapped(direction)
 	end)
 end
 
---- Wrap next/prev inside the trouble panel (used by trouble.nvim keymaps).
-function M.trouble_wrap_action(view, direction, action_opts)
+function M.wrap_action(view, direction, action_opts)
 	action_opts = action_opts or {}
 	local jump = action_opts.jump
 	local count = vim.v.count1
@@ -105,62 +109,6 @@ function M.trouble_wrap_action(view, direction, action_opts)
 			end
 		end
 	end
-end
-
-local function buffer_extreme(first)
-	local diags = vim.diagnostic.get(0)
-	if #diags == 0 then
-		return
-	end
-	table.sort(diags, function(a, b)
-		return a.lnum == b.lnum and (a.col or 0) < (b.col or 0) or a.lnum < b.lnum
-	end)
-	local d = diags[first and 1 or #diags]
-	vim.api.nvim_win_set_cursor(0, { d.lnum, math.max(d.col or 0, 0) })
-	util.center()
-end
-
-local function buffer_jump(count)
-	local diag = vim.diagnostic.jump({ count = count, wrap = true, bufnr = 0 })
-	if diag then
-		util.center()
-	end
-end
-
-local function jump(direction)
-	if trouble_open() then
-		trouble_jump_wrapped(direction)
-		return
-	end
-
-	if direction == "next" then
-		buffer_jump(1)
-	elseif direction == "prev" then
-		buffer_jump(-1)
-	elseif direction == "last" then
-		buffer_extreme(false)
-	else
-		buffer_extreme(true)
-	end
-end
-
-function M.setup()
-	bind.bind_nav(
-		"z",
-		"diagnostic",
-		function()
-			jump("next")
-		end,
-		function()
-			jump("prev")
-		end,
-		function()
-			jump("last")
-		end,
-		function()
-			jump("first")
-		end
-	)
 end
 
 return M

@@ -93,13 +93,13 @@ return {
 				},
 			})
 
-			keymap.leader("P", function()
+			keymap.leader("K", function()
 				local bufnr = vim.api.nvim_get_current_buf()
 				if #vim.diagnostic.get(bufnr) == 0 then
 					return
 				end
 				vim.diagnostic.open_float(bufnr, { scope = "line", focus = false })
-			end, { desc = "Diagnostics" })
+			end, { desc = "Diagnostic float (line)" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event)

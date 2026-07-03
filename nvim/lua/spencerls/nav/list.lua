@@ -1,6 +1,7 @@
 local keymap = require("spencerls.keymap")
 local bind = require("spencerls.nav.bind")
 local util = require("spencerls.nav.util")
+local trouble = require("spencerls.nav.trouble")
 local M = {}
 
 local function anchor_index(items)
@@ -81,13 +82,39 @@ local function jump_list(kind, index)
 	jump_item(item)
 end
 
-function M.setup(letter, loc, label, hubs)
-	local k = make_kind(loc)
+local function buffer_extreme(first)
+	local diags = vim.diagnostic.get(0)
+	if #diags == 0 then
+		return
+	end
+	table.sort(diags, function(a, b)
+		return a.lnum == b.lnum and (a.col or 0) < (b.col or 0) or a.lnum < b.lnum
+	end)
+	local d = diags[first and 1 or #diags]
+	vim.api.nvim_win_set_cursor(0, { d.lnum, math.max(d.col or 0, 0) })
+	util.center()
+end
+
+local function buffer_jump(count)
+	local diag = vim.diagnostic.jump({ count = count, wrap = true, bufnr = 0 })
+	if diag then
+		util.center()
+	end
+end
+
+---@param letter string
+---@param kind boolean|string false = qflist, true = loclist, string = trouble mode (e.g. "diagnostics")
+---@param label string
+---@param hubs table
+function M.setup(letter, kind, label, hubs)
+	local is_diag = type(kind) == "string"
+	local k = is_diag and nil or make_kind(kind)
+	local trouble_mode = is_diag and kind or (kind and "loclist" or "qflist")
 	local pending = false
 	local H = {}
 
 	function H.fill(what)
-		if #what.items == 0 then
+		if is_diag or #what.items == 0 then
 			return
 		end
 		k.set(what)
@@ -100,6 +127,9 @@ function M.setup(letter, loc, label, hubs)
 	end
 
 	function H.fill_entries(entries, title)
+		if is_diag then
+			return
+		end
 		vim.api.nvim_exec_autocmds("QuickFixCmdPre", {})
 		vim.fn.setqflist(entries, " ")
 		if title then
@@ -110,10 +140,29 @@ function M.setup(letter, loc, label, hubs)
 	end
 
 	local function empty()
+		if is_diag then
+			return #vim.diagnostic.get(0) == 0
+		end
 		return #k.get() == 0
 	end
 
-	bind.bind_nav(letter, label, function()
+	local function jump(direction)
+		if trouble.is_open(trouble_mode) then
+			trouble.jump_mode(direction, trouble_mode)
+			return
+		end
+		if is_diag then
+			if direction == "next" then
+				buffer_jump(1)
+			elseif direction == "prev" then
+				buffer_jump(-1)
+			elseif direction == "last" then
+				buffer_extreme(false)
+			else
+				buffer_extreme(true)
+			end
+			return
+		end
 		if empty() then
 			return
 		end
@@ -122,41 +171,41 @@ function M.setup(letter, loc, label, hubs)
 			jump_list(k, k.idx())
 			return
 		end
-		util.cmd_wrap(k.next, k.wn)
-	end, function()
-		if empty() then
-			return
+		if direction == "next" then
+			util.cmd_wrap(k.next, k.wn)
+		elseif direction == "prev" then
+			util.cmd_wrap(k.prev, k.wp)
+		elseif direction == "last" then
+			jump_list(k, #k.get())
+		else
+			jump_list(k, 1)
 		end
-		pending = false
-		util.cmd_wrap(k.prev, k.wp)
+	end
+
+	bind.bind_nav(letter, label, function()
+		jump("next")
 	end, function()
-		if empty() then
-			return
-		end
-		pending = false
-		jump_list(k, #k.get())
+		jump("prev")
 	end, function()
-		if empty() then
-			return
-		end
-		pending = false
-		jump_list(k, 1)
+		jump("last")
+	end, function()
+		jump("first")
 	end)
 
 	keymap.leader(letter:upper(), function()
-		if k.loclist == 1 and empty() then
+		if not is_diag and kind and empty() then
 			return
 		end
-		for _, win in ipairs(vim.fn.getwininfo()) do
-			if win.quickfix == 1 and win.loclist == k.loclist then
-				vim.cmd(k.close)
-				return
-			end
+		local ok, tr = pcall(require, "trouble")
+		if not ok then
+			return
 		end
-		vim.cmd(k.loclist == 1 and "lopen" or "copen")
-	end, { desc = "Toggle " .. label .. " window" })
+		tr.toggle({ mode = trouble_mode, focus = false })
+	end, { desc = "Toggle " .. label .. " list" })
 
-	hubs[loc and "loc" or "qf"] = H
+	if not is_diag then
+		hubs[kind and "loc" or "qf"] = H
+	end
 	return H
 end
 

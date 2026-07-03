@@ -7,26 +7,27 @@ keymap.leader("q", "<cmd>q<CR>", { desc = "Quit" })
 keymap.leader("qa", "<cmd>qa<CR>", { desc = "Quit all" })
 keymap.leader("Q", "<cmd>q!<CR>", { desc = "Force Quit" })
 
-keymap.leader("p", [["+p]], {
+-- Clipboard edits
+
+keymap.set("<C-v>", [["+p]], {
 	mode = { "n", "v" },
 	desc = "Paste from clipboard",
 })
-keymap.set("<C-p>", [[<C-r>+]], {
+keymap.set("<C-v>", [[<C-r>+]], {
 	mode = "i",
 	desc = "Paste from clipboard",
 })
-
-keymap.leader("y", [["+y]], {
+keymap.set("<C-c>", [["+y]], {
 	mode = { "n", "v" },
 	desc = "Copy to clipboard",
 })
+
+-- Delete without copy
+
 keymap.leader("d", [["_d]], {
 	mode = { "n", "v" },
 	desc = "Delete without copy",
 })
-
-keymap.leader("r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace text" })
-keymap.leader("X", "<cmd>!chmod +x %<CR>", { desc = "Make executable (linux)" })
 
 -- Editing motion tweaks
 
@@ -38,5 +39,10 @@ keymap.set("<C-d>", "<C-d>zz", { desc = "Half-page down centered" })
 keymap.set("<C-u>", "<C-u>zz", { desc = "Half-page up centered" })
 keymap.set("n", "nzzzv", { desc = "Next search centered" })
 keymap.set("N", "Nzzzv", { desc = "Previous search centered" })
-keymap.set("<C-c>", "<Esc>", { mode = "i", desc = "Escape insert mode" })
 keymap.set("Q", "<nop>", { desc = "Avoid worst place in the universe" })
+-- keymap.set("<C-c>", "<Esc>", { mode = "i", desc = "Escape insert mode" })
+
+-- misc
+
+keymap.leader("r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace text" })
+keymap.leader("X", "<cmd>!chmod +x %<CR>", { desc = "Make executable (linux)" })
