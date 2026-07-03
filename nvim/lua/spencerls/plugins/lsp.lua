@@ -36,6 +36,9 @@ return {
 
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+		},
 		keys = {
 			keymap.leader("i", function()
 				vim.lsp.buf.references(nil, { on_list = nav.i.fill })
@@ -51,6 +54,17 @@ return {
 			}),
 		},
 		config = function()
+			local capabilities = vim.tbl_deep_extend(
+				"force",
+				{},
+				vim.lsp.protocol.make_client_capabilities(),
+				require("cmp_nvim_lsp").default_capabilities()
+			)
+
+			vim.lsp.config("*", {
+				capabilities = capabilities,
+			})
+
 			vim.lsp.config("lua_ls", {
 				settings = {
 					Lua = {

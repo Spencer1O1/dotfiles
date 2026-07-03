@@ -4,6 +4,8 @@ local keymap = require("spencerls.keymap")
 
 keymap.leader("w", "<cmd>w<CR>", { desc = "Save file" })
 keymap.leader("q", "<cmd>q<CR>", { desc = "Quit" })
+keymap.leader("qa", "<cmd>qa<CR>", { desc = "Quit all" })
+keymap.leader("Q", "<cmd>q!<CR>", { desc = "Force Quit" })
 
 keymap.leader("p", [["+p]], {
 	mode = { "n", "v" },

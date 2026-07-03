@@ -1,5 +1,9 @@
 [
   {
+    "id": "User.sendInput.E116B028",
+    "keys": "ctrl+space"
+  },
+  {
     "id": "Terminal.CopyToClipboard",
     "keys": "ctrl+c"
   },
