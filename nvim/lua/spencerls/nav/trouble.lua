@@ -3,23 +3,99 @@ local util = require("spencerls.nav.util")
 local M = {}
 
 local OPEN_OPTS = { focus = false, refresh = false }
-
-function M.is_open(opts)
-	local ok, trouble = pcall(require, "trouble")
-	if not ok then
-		return false
-	end
-	if type(opts) == "string" then
-		opts = { mode = opts }
-	end
-	return trouble.is_open(opts)
-end
+local HUB_MODES = { diagnostics = true, qflist = true, loclist = true }
 
 local function with_trouble(fn)
 	local ok, trouble = pcall(require, "trouble")
 	if ok then
 		fn(trouble)
 	end
+end
+
+local function open_hub_view(mode)
+	local ok, View = pcall(require, "trouble.view")
+	if not ok then
+		return nil
+	end
+	local filter = { open = true }
+	if mode then
+		filter.mode = mode
+	end
+	for _, entry in ipairs(View.get(filter)) do
+		if HUB_MODES[entry.mode] then
+			return entry.view
+		end
+	end
+	return nil
+end
+
+function M.is_open(opts)
+	if type(opts) == "string" then
+		opts = { mode = opts }
+	end
+	return open_hub_view(opts.mode) ~= nil
+end
+
+function M.set_mode(view, mode)
+	local Config = require("trouble.config")
+	local Spec = require("trouble.spec")
+	local Section = require("trouble.view.section")
+
+	for _, section in ipairs(view.sections) do
+		section:stop()
+	end
+
+	view._filters = {}
+	view.opts = vim.tbl_deep_extend("force", view.opts, Config.get({
+		mode = mode,
+		focus = false,
+	}))
+
+	view.sections = {}
+	for _, s in ipairs(Spec.sections(view.opts)) do
+		local section = Section.new(s, view.opts)
+		section.on_update = function()
+			view:update()
+		end
+		table.insert(view.sections, section)
+	end
+
+	view:listen()
+
+	if view.win:valid() then
+		local w = vim.w[view.win.win]
+		if w.trouble then
+			w.trouble.mode = mode
+		end
+	end
+
+	view:refresh({ opening = false }):next(function()
+		view:update()
+	end)
+end
+
+function M.toggle(opts)
+	if type(opts) == "string" then
+		opts = { mode = opts }
+	end
+	opts = vim.tbl_extend("force", { focus = false }, opts or {})
+	local mode = opts.mode
+	if not mode then
+		return
+	end
+
+	with_trouble(function(tr)
+		local open = open_hub_view()
+		if open then
+			if open.opts.mode == mode then
+				open:close()
+			else
+				M.set_mode(open, mode)
+			end
+			return
+		end
+		tr.open(opts)
+	end)
 end
 
 local function item_buf(item)

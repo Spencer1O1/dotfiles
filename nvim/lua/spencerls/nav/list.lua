@@ -196,11 +196,7 @@ function M.setup(letter, kind, label, hubs)
 		if not is_diag and kind and empty() then
 			return
 		end
-		local ok, tr = pcall(require, "trouble")
-		if not ok then
-			return
-		end
-		tr.toggle({ mode = trouble_mode, focus = false })
+		trouble.toggle(trouble_mode)
 	end, { desc = "Toggle " .. label .. " list" })
 
 	if not is_diag then
