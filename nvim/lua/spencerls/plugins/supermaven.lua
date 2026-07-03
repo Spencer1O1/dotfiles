@@ -1,6 +1,8 @@
 return {
 	{
 		"supermaven-inc/supermaven-nvim",
+		lazy = false,
+		priority = 1000,
 		config = function()
 			require("supermaven-nvim.completion_preview").suggestion_group = "SupermavenSuggestion"
 

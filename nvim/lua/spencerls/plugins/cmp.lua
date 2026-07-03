@@ -84,7 +84,7 @@ return {
 							fallback()
 						end
 					end, { "i", "s" }),
-					["<C-S-s>"] = cmp.mapping(function(fallback)
+					["<C-S-f>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							fallback()
 							return
