@@ -25,6 +25,17 @@ return {
 				{ name = "buffer", keyword_length = 1 },
 			})
 
+			local function accept_supermaven()
+				local inlay = suggestion:get_inlay_instance()
+				if not inlay or not inlay.completion_text or inlay.completion_text == "" then
+					return false
+				end
+				-- Supermaven marks indented suggestions inactive on blank lines; accept anyway.
+				inlay.is_active = true
+				suggestion.on_accept_suggestion()
+				return true
+			end
+
 			cmp.setup({
 				completion = {
 					autocomplete = false,
@@ -70,9 +81,11 @@ return {
 						end
 					end, { "i", "s" }),
 					["<C-f>"] = cmp.mapping(function(fallback)
-						if not cmp.visible() and suggestion.has_suggestion() then
-							suggestion.on_accept_suggestion()
-						else
+						if cmp.visible() then
+							fallback()
+							return
+						end
+						if not accept_supermaven() then
 							fallback()
 						end
 					end),

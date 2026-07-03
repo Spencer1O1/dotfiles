@@ -65,7 +65,7 @@ return {
         callback = function(event)
           local lang = vim.bo[event.buf].filetype
           if has_ts_parser(lang) then
-            vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexp()"
+            vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
           end
         end,
       })
