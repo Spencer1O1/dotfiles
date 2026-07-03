@@ -43,6 +43,7 @@ return {
 			end
 
 			vim.api.nvim_set_hl(0, "SupermavenSuggestion", { fg = "#557ac9" })
+			vim.api.nvim_set_hl(0, "CmpItemKindSupermaven", { fg = "#557ac9" })
 		end,
 	},
 }

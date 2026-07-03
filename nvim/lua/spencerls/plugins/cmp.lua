@@ -26,14 +26,17 @@ return {
 				{ name = "buffer", keyword_length = 1 },
 			})
 
-			local function accept_supermaven()
+			local function accept_supermaven(partial)
 				local inlay = suggestion:get_inlay_instance()
 				if not inlay or not inlay.completion_text or inlay.completion_text == "" then
 					return false
 				end
-				-- Supermaven marks indented suggestions inactive on blank lines; accept anyway.
 				inlay.is_active = true
-				suggestion.on_accept_suggestion()
+				if partial then
+					suggestion.on_accept_suggestion_word()
+				else
+					suggestion.on_accept_suggestion()
+				end
 				return true
 			end
 
@@ -54,12 +57,12 @@ return {
 					["<C-Space>"] = cmp.mapping(function()
 						if cmp.visible() then
 							cmp.abort()
-						else
-							cmp.complete({
-								reason = cmp.ContextReason.Manual,
-								config = { sources = completion_sources },
-							})
+							return
 						end
+						cmp.complete({
+							reason = cmp.ContextReason.Manual,
+							config = { sources = completion_sources },
+						})
 					end, { "i", "s" }),
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
@@ -81,12 +84,21 @@ return {
 							fallback()
 						end
 					end, { "i", "s" }),
+					["<C-S-s>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							fallback()
+							return
+						end
+						if not accept_supermaven(true) then
+							fallback()
+						end
+					end),
 					["<C-f>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							fallback()
 							return
 						end
-						if not accept_supermaven() then
+						if not accept_supermaven(false) then
 							fallback()
 						end
 					end),
