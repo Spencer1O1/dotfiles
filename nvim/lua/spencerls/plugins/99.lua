@@ -18,7 +18,7 @@ return {
 			map_99("9s", function()
 				require("99").search()
 			end, { desc = "99 search" }),
-			map_99("9b", function()
+			map_99("9v", function()
 				require("99").vibe()
 			end, { desc = "99 vibe (agent implement)" }),
 			map_99("9v", function()
@@ -85,7 +85,7 @@ return {
 				end
 
 				vim.fn.setqflist({}, "r", { title = "99 Results", items = items })
-				require("trouble").open({ mode = "qflist", focus = false })
+				require("spencerls.nav.trouble").show("qflist")
 			end
 
 			vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {

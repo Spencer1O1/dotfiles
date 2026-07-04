@@ -74,6 +74,43 @@ function M.set_mode(view, mode)
 	end)
 end
 
+--- Show trouble for a mode: refresh if already on that hub, switch mode if another
+--- hub is open, otherwise open without stealing focus.
+---@param opts string|table? trouble mode (e.g. "qflist") or opts with `mode`
+function M.show(opts)
+	if type(opts) == "string" then
+		opts = { mode = opts }
+	end
+	opts = vim.tbl_extend("force", OPEN_OPTS, opts or {})
+	local mode = opts.mode
+	if not mode then
+		return
+	end
+
+	with_trouble(function(tr)
+		local open = open_hub_view()
+		if open then
+			if open.opts.mode == mode then
+				open:refresh({ opening = false }):next(function()
+					open:update()
+				end)
+			else
+				M.set_mode(open, mode)
+			end
+			return
+		end
+		tr.open(opts)
+	end)
+end
+
+--- Close the open trouble hub window, if any.
+function M.close()
+	local view = open_hub_view()
+	if view then
+		view:close()
+	end
+end
+
 function M.toggle(opts)
 	if type(opts) == "string" then
 		opts = { mode = opts }
