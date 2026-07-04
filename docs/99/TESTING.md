@@ -26,15 +26,11 @@ Repro: `cd C:\Dev`, open `C:\Dev\test\test.js`, `9s`.
 
 ---
 
-## Step 3 — Response format
+## Step 3 — Response format ✓
 
-Branch: `fix/cursor-agent-response` (`121599a` on top of workspace)
+Branch: `fix/cursor-agent-response` / `fix/cursor-agent-response-pr` (`121599a`)
 
-- [ ] `retrieve_results` has qfix lines (not status-only text)
-- [ ] `qf_list` populated on search
-- [ ] `9v` visual — no unwanted normalization
-
-Draft: [fixes/pr-cursor-agent-response-format.md](fixes/pr-cursor-agent-response-format.md)
+Draft: [fixes/pr-cursor-agent-response-format.md](fixes/pr-cursor-agent-response-format.md) — ready to file
 
 ---
 

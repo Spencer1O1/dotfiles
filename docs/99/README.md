@@ -15,7 +15,7 @@ Local clone: `C:/Dev/99`
 |-----|-------------|-------------------|--------|
 | Prompt `@file` | `fix/cursor-agent-prompt` | `fix/cursor-agent-prompt-pr` | [#185](https://github.com/ThePrimeagen/99/pull/185) open |
 | Workspace / tmp | `fix/cursor-agent-workspace` | `fix/cursor-agent-workspace-pr` | Stacked on `master` (depends #185) |
-| Response / qfix | `fix/cursor-agent-response` | `fix/cursor-agent-response-pr` | **Testing now** |
+| Response / qfix | `fix/cursor-agent-response` | `fix/cursor-agent-response-pr` | Verified — [draft](fixes/pr-cursor-agent-response-format.md) |
 | Integration | `integration/cursor-agent` | — | #178 + #138 merged locally |
 
 **Lazy spec:** `nvim/lua/spencerls/plugins/99.lua` → `fix/cursor-agent-response`
@@ -45,6 +45,7 @@ Only `lua/99/providers.lua` and `lua/99/test/providers_spec.lua` in the PR — n
 |---|--------|
 | [#180](https://github.com/ThePrimeagen/99/issues/180) | Prompt via `@` file |
 | [#181](https://github.com/ThePrimeagen/99/issues/181) | `--workspace`, tmp paths |
+| [#178](https://github.com/ThePrimeagen/99/pull/178) | Windows qfix drive-letter parsing (`C:` → filename `"C"`) |
 
 ## Dotfiles workaround
 
