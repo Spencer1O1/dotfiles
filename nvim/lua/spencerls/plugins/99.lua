@@ -7,9 +7,7 @@ end
 return {
 	{
 		"Spencer1O1/99",
-		-- Test one fix branch at a time; advance only after manual verification.
-		-- fix/cursor-agent-prompt → fix/cursor-agent-workspace → fix/cursor-agent-response
-		branch = "fix/cursor-agent-response",
+		branch = "master",
 		dependencies = {
 			"hrsh7th/nvim-cmp",
 			"nvim-lua/plenary.nvim",
@@ -38,9 +36,6 @@ return {
 			map_99("9l", function()
 				require("99").view_logs()
 			end, { desc = "99 view logs" }),
-			map_99("9h", function()
-				require("spencerls.agent_workspace").set_here()
-			end, { desc = "set agent workspace (here)" }),
 			map_99("9w", function()
 				require("99").Extensions.Worker.set_work()
 			end, { desc = "99 set work item" }),
@@ -56,13 +51,12 @@ return {
 		},
 		config = function()
 			local _99 = require("99")
-			local agent_ws = require("spencerls.agent_workspace")
 
 			_99.setup({
 				provider = _99.Providers.CursorAgentProvider,
 				model = "composer-2.5-fast",
 				display_errors = true,
-				tmp_dir = agent_ws.sync_99_tmp(),
+				tmp_dir = "./tmp",
 				md_files = {
 					"AGENTS.md",
 					"AGENT.md",
