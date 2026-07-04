@@ -1,37 +1,25 @@
-# PR draft: CursorAgent workspace / tmp paths
-
-**Local only:** fork `fix/cursor-agent-workspace` → upstream `master`, closes #181. Pending Check 2.
-
----
-
-## GitHub PR — copy from here
-
-**Title:** `fix(providers): CursorAgent --workspace, cwd, and tmp path resolution`
-
-**Body:**
+# fix(providers): CursorAgent --workspace and tmp path resolution
 
 ## Summary
 
-Pass `--workspace` and set `vim.system` `cwd` to the project root. Resolve `context.tmp_file` under that root so cursor-agent writes TEMP_FILE where 99 reads it — especially when Neovim cwd is a parent directory (e.g. `C:\Dev` with project at `C:\Dev\test`).
-
-Builds on prompt @file delivery (Closes #180).
+Pass `--workspace` on the cursor-agent command. Resolve `context.tmp_file` under Neovim's cwd (and absolute paths as-is) so cursor-agent writes TEMP_FILE where 99 reads it — especially when Neovim cwd is a parent directory (e.g. `C:\Dev` with project at `C:\Dev\test`).
 
 Closes #181
 
 ## Verification
 
-<!-- paste log lines inline after Check 2 -->
+Repro: Neovim `:pwd` → `C:\Dev`, buffer `C:\Dev\test\test.js`, search "Find the main entrypoint".
 
-Repro: Neovim cwd `C:\Dev`, buffer `C:\Dev\test\test.js`, run search.
+Agent targets project tmp, not parent `C:\Dev\tmp`:
+
+```
+{"path":"C:\\Dev\\test\\tmp/99-1644-prompt","msg":"saved prompt to file"}
+{"command":["cursor-agent","--workspace","C:\\Dev","--trust","--force","--model","composer-2.5-fast","--print",...]}
+{"msg":"stdout","data":"Task complete. Output written to `C:\\Dev\\test\\tmp\\99-1644`.\n"}
+```
 
 ## Test plan
 
-- [ ] Provider spec: command includes `--workspace`
-- [ ] Manual Windows: Neovim cwd ≠ project — TEMP_FILE read succeeds
+- [x] Provider spec: command includes `--workspace`
+- [x] Manual Windows: Neovim cwd ≠ project — TEMP_FILE paths align
 - [ ] Manual Linux
-
----
-
-## Local notes
-
-Fill verification + `.log` after Check 2. Depends on prompt fix passing first.

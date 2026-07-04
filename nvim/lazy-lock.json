@@ -1,5 +1,5 @@
 {
-  "99": { "branch": "fix/cursor-agent-prompt", "commit": "7bfa22d7608aab806e6cab152755eccac9cdcd5a" },
+  "99": { "branch": "fix/cursor-agent-workspace", "commit": "db5dd0e8692af08284b44853a8f47994eff4296b" },
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
   "LuaSnip": { "branch": "master", "commit": "0abc8f390b278c3b4aabc4c004ac8a088b65cf24" },
   "cloak.nvim": { "branch": "main", "commit": "648aca6d33ec011dc3166e7af3b38820d01a71e4" },

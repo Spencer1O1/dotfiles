@@ -9,7 +9,7 @@ return {
 		"Spencer1O1/99",
 		-- Test one fix branch at a time; advance only after manual verification.
 		-- fix/cursor-agent-prompt → fix/cursor-agent-workspace → fix/cursor-agent-response
-		branch = "fix/cursor-agent-prompt",
+		branch = "fix/cursor-agent-workspace",
 		dependencies = {
 			"hrsh7th/nvim-cmp",
 			"nvim-lua/plenary.nvim",

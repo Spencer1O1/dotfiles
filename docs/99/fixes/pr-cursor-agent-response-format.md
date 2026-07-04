@@ -1,14 +1,4 @@
-# PR draft: CursorAgent response format
-
-**Local only:** fork `fix/cursor-agent-response` → upstream `master`. Pending Check 3. Complements #138.
-
----
-
-## GitHub PR — copy from here
-
-**Title:** `fix(providers): normalize CursorAgent citations and guard stdout tmp writes`
-
-**Body:**
+# fix(providers): normalize CursorAgent citations and guard stdout tmp writes
 
 ## Summary
 
@@ -19,9 +9,11 @@ cursor-agent `--print` often returns citation blocks or status-only stdout ("Tas
 
 Complements #138. Does not re-implement stdout capture.
 
+Builds on prompt (#180) and workspace (#181) fixes.
+
 ## Verification
 
-<!-- paste log lines inline after Check 3 -->
+<!-- paste log lines after Check 3 -->
 
 ## Test plan
 
@@ -29,17 +21,3 @@ Complements #138. Does not re-implement stdout capture.
 - [ ] Unit test: existing qfix lines pass through
 - [ ] Manual Windows: search — qfix populated, status stdout does not clobber TEMP_FILE
 - [ ] Manual Linux
-
----
-
-## Local notes
-
-Before state (prompt-only branch, Check 1):
-
-```
-{"msg":"stdout","data":"Task complete. Results written to `C:/Dev/test/tmp/99-6155`.\n"}
-{"msg":"retrieve_results","results":"Task complete. Results written to `C:/Dev/test/tmp/99-6155`."}
-{"msg":"qf_list created","qf_list":[]}
-```
-
-After Check 3, expect qfix lines in `retrieve_results` and populated `qf_list`.
