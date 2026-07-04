@@ -1,7 +1,0 @@
-{"method":"search","level":"DEBUG","msg":"99 Request","id":1}
-{"success":true,"msg":"capture_prompt","response":"Find the main entrypoint","level":"DEBUG","id":1}
-{"path":"C:\\Dev\\test\\tmp/99-1644-prompt","level":"DEBUG","msg":"saved prompt to file","id":1}
-{"msg":"make_request","tmp_file":"C:\\Dev\\test\\tmp/99-1644","level":"DEBUG","Area":"CursorAgentProvider","id":1}
-{"msg":"make_request","id":1,"level":"DEBUG","cwd":"C:\\Dev","Area":"CursorAgentProvider","command":["cursor-agent","--workspace","C:\\Dev","--trust","--force","--model","composer-2.5-fast","--print","Read and follow every instruction in @C:/Dev/test/tmp/99-1644-prompt using your file tools, then complete the task exactly as specified in that file."]}
-{"msg":"stdout","data":"Task complete. Output written to `C:\\Dev\\test\\tmp\\99-1644`.\n","level":"DEBUG","Area":"CursorAgentProvider","id":1}
-{"msg":"qf_list created","qf_list":[],"level":"DEBUG","Area":"search","id":1}

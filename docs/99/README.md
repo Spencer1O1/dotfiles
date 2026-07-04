@@ -4,7 +4,8 @@
 
 1. **Agents never open pull requests.**
 2. **Test one fork branch at a time** — advance Lazy only after the checklist passes.
-3. **Two branch names per fix:** `fix/…` for local testing (integration base); `fix/…-pr` for upstream (cherry-pick onto `upstream/master`).
+3. **Two branch names per fix:** `fix/…` for local testing; `fix/…-pr` for upstream (cherry-pick onto `upstream/master`, or stack on `master` while earlier PRs are open).
+4. **Fork contributors cannot stack PRs on upstream** with a fork-only base branch — open against `master`, note `Depends on #N`, mark draft until deps merge.
 
 ## Fork (`Spencer1O1/99`)
 
@@ -12,31 +13,30 @@ Local clone: `C:/Dev/99`
 
 | Fix | Test branch | Upstream PR branch | Status |
 |-----|-------------|-------------------|--------|
-| Prompt `@file` | `fix/cursor-agent-prompt` | `fix/cursor-agent-prompt-pr` | Done — [#185](https://github.com/ThePrimeagen/99/pull/185) |
-| Workspace / tmp | `fix/cursor-agent-workspace` | `fix/cursor-agent-workspace-pr` | Verified — [draft](fixes/pr-cursor-agent-workspace-tmp.md) |
-| Response / qfix | `fix/cursor-agent-response` | `fix/cursor-agent-response-pr` | **Testing next** |
-| Integration | `integration/cursor-agent` | — | Base: #178 + #138 merged |
+| Prompt `@file` | `fix/cursor-agent-prompt` | `fix/cursor-agent-prompt-pr` | [#185](https://github.com/ThePrimeagen/99/pull/185) open |
+| Workspace / tmp | `fix/cursor-agent-workspace` | `fix/cursor-agent-workspace-pr` | Stacked on `master` (depends #185) |
+| Response / qfix | `fix/cursor-agent-response` | `fix/cursor-agent-response-pr` | **Testing now** |
+| Integration | `integration/cursor-agent` | — | #178 + #138 merged locally |
 
-**Lazy spec:** `nvim/lua/spencerls/plugins/99.lua` → advance to `fix/cursor-agent-response` for Check 3
+**Lazy spec:** `nvim/lua/spencerls/plugins/99.lua` → `fix/cursor-agent-response`
 
 ### Create a clean `-pr` branch (when filing)
 
 ```bash
 cd C:/Dev/99
 git fetch upstream origin
-git checkout -B fix/cursor-agent-workspace-pr upstream/master
-git cherry-pick db5dd0e   # workspace commit only, after prompt PR merges
-# or cherry-pick prompt + workspace if prompt is not merged yet
-git push origin fix/cursor-agent-workspace-pr --force-with-lease
+git checkout -B fix/cursor-agent-response-pr upstream/master
+git cherry-pick 121599a   # response commit only, after prior PRs merge
+git push origin fix/cursor-agent-response-pr --force-with-lease
 ```
 
-Only `lua/99/providers.lua` and `lua/99/test/providers_spec.lua` should land in the PR — no README, `.gitignore`, or qfix-helpers.
+Only `lua/99/providers.lua` and `lua/99/test/providers_spec.lua` in the PR — no README, `.gitignore`, or qfix-helpers.
 
 ## Workflow
 
 1. Test on `fix/cursor-agent-*` (see [TESTING.md](TESTING.md))
-2. Fill [fixes/pr-*.md](fixes/) + `.log` with verification lines
-3. Cherry-pick onto `fix/cursor-agent-*-pr` from `upstream/master`
+2. Fill [fixes/pr-*.md](fixes/) with verification lines
+3. Cherry-pick onto `fix/cursor-agent-*-pr` from `upstream/master` (or stack on `master`)
 4. You open the GitHub PR
 
 ## Issues
@@ -44,8 +44,8 @@ Only `lua/99/providers.lua` and `lua/99/test/providers_spec.lua` should land in 
 | # | Topic |
 |---|--------|
 | [#180](https://github.com/ThePrimeagen/99/issues/180) | Prompt via `@` file |
-| [#181](https://github.com/ThePrimeagen/99/issues/181) | `--workspace`, cwd, tmp paths |
+| [#181](https://github.com/ThePrimeagen/99/issues/181) | `--workspace`, tmp paths |
 
 ## Dotfiles workaround
 
-`agent_workspace.sync_99_tmp()` — revisit after workspace fix is verified; may no longer be needed.
+`agent_workspace.sync_99_tmp()` — revisit after workspace PR merges; upstream uses `./tmp` relative to `:pwd`.

@@ -2,7 +2,9 @@
 
 ## Current step: 3 — Response format
 
-Switch Lazy to `fix/cursor-agent-response`, `:Lazy sync`, restart Neovim.
+Lazy: `fix/cursor-agent-response` → `:Lazy sync` → restart Neovim.
+
+Branch stacks on workspace (`1629aec`) + prompt (`242d8b5`).
 
 ---
 
@@ -14,22 +16,21 @@ Switch Lazy to `fix/cursor-agent-response`, `:Lazy sync`, restart Neovim.
 
 ## Step 2 — Workspace / tmp ✓
 
+Stacked PR on `master` (depends #185) · closes [#181](https://github.com/ThePrimeagen/99/issues/181)
+
 Repro: `cd C:\Dev`, open `C:\Dev\test\test.js`, `9s`.
 
-- [x] `command` includes `--workspace` + `cwd` (`C:\Dev`)
-- [x] `@` prompt points at `C:\Dev\test\tmp\...` (not parent `C:\Dev\tmp`)
-- [x] Agent stdout references `C:\Dev\test\tmp\99-1644`
-- [x] No doubled paths
-
-Draft: [fixes/pr-cursor-agent-workspace-tmp.md](fixes/pr-cursor-agent-workspace-tmp.md)
+- [x] `command` includes `--workspace`
+- [x] Agent output path matches TEMP_FILE in prompt
+- [x] Windows + Linux verified
 
 ---
 
 ## Step 3 — Response format
 
-Branch: `fix/cursor-agent-response`
+Branch: `fix/cursor-agent-response` (`121599a` on top of workspace)
 
-- [ ] `retrieve_results` has qfix lines (not status-only stdout)
+- [ ] `retrieve_results` has qfix lines (not status-only text)
 - [ ] `qf_list` populated on search
 - [ ] `9v` visual — no unwanted normalization
 
@@ -46,5 +47,7 @@ git checkout -B fix/cursor-agent-<name>-pr upstream/master
 git cherry-pick <commit-sha>
 git push origin fix/cursor-agent-<name>-pr --force-with-lease
 ```
+
+Or stack on `master` while earlier PRs are open (note `Depends on #N` in body).
 
 Merge into `integration/cursor-agent` locally when you want all fixes together for daily use.
