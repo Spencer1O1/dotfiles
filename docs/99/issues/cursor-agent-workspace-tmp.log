@@ -1,0 +1,10 @@
+{"msg":"make_request","Area":"CursorAgentProvider","tmp_file":".\\tmp/99-7428","level":"DEBUG","id":2}
+{"msg":"make_request","Area":"CursorAgentProvider","id":2,"level":"DEBUG","command":["cursor-agent","--trust","--force","--model","composer-2.5-fast","--print","<Context>\n...(multiline prompt)..."]}
+{"msg":"stdout","Area":"CursorAgentProvider","id":2,"data":"Done. Output written to `C:\\Dev\\test\\tmp\\99-7428`.\n","level":"DEBUG"}
+{"msg":"retrieve_results","Area":"CursorAgentProvider","id":2,"level":"DEBUG","results":"C:\\Dev\\test\\test.js:51:1,1,Top-level main invocation is the script entrypoint that starts program execution\nC:\\Dev\\test\\test.js:6:1,6,Main function defines the primary startup routine invoked at entry"}
+{"msg":"saved prompt to file","path":".\\tmp/99-4723-prompt","level":"DEBUG","id":1}
+{"msg":"make_request","Area":"CursorAgentProvider","tmp_file":".\\tmp/99-4723","level":"DEBUG","id":1}
+{"msg":"retrieve_results","Area":"CursorAgentProvider","id":1,"level":"DEBUG","results":""}
+{"msg":"make_request","command":["cursor-agent","--trust","--force","--model","composer-2.5-fast","--print","Read and follow every instruction in @C:/Dev/tmp/99-3900-prompt using your file tools, then complete the task exactly as specified in that file."],"level":"DEBUG","Area":"CursorAgentProvider","id":1}
+{"msg":"stdout","Area":"CursorAgentProvider","id":1,"data":"Task complete — results written to `C:\\Dev\\tmp\\99-3900`.\n","level":"DEBUG"}
+{"msg":"retrieve_results","Area":"CursorAgentProvider","id":1,"level":"DEBUG","results":"C:/Dev/tmp/capacitor-nfc-scanner/src/index.ts:1:1,5,TypeScript source entrypoint that registers and exports the NfcScanner Capacitor plugin\nC:/Dev/tmp/capacitor-nfc-scanner/package.json:5:3,1,package.json main field declaring dist/plugin.cjs.js as the npm package entrypoint\nC:/Dev/tmp/capacitor-nfc-scanner/tsconfig.json:19:3,1,TypeScript build configuration explicitly listing src/index.ts as the sole compilation entry file"}

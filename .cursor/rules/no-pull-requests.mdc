@@ -1,0 +1,28 @@
+---
+description: Never open pull requests unless the user explicitly asks
+alwaysApply: true
+---
+
+# No pull requests without explicit permission
+
+**Never** create, open, or push branches intended as pull requests to any remote repository unless the user explicitly asks in that conversation (e.g. "open a PR", "create the pull request").
+
+## Forbidden without explicit ask
+
+- `gh pr create`
+- Opening PRs on GitHub (any repo, including forks → upstream)
+- Pushing branches *for the purpose of* opening a PR
+- Interpreting "start on PRs", "prepare PRs", or "PR drafts" as permission to open them
+
+## Allowed
+
+- Implement fixes on a **fork** or local branch
+- Write PR **draft markdown** in docs (title, body, test plan)
+- Push to the user's fork for local testing
+- Run `gh pr create` **only** when the user explicitly requests it in the current message
+
+## Workflow default
+
+1. Implement on fork branch
+2. User verifies manually
+3. User opens upstream PR themselves (or explicitly asks the agent to)
