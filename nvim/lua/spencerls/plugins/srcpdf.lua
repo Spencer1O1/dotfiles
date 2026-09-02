@@ -13,6 +13,12 @@ return {
 				lazy = true,
 				desc = "Open PDF",
 			}),
+			keymap.leader("P", function()
+				require("srcpdf").build()
+			end, {
+				lazy = true,
+				desc = "Build PDF",
+			}),
 		},
 	},
 }
