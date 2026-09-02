@@ -1,9 +1,1 @@
-[
-  {
-    "command": {
-      "action": "sendInput",
-      "input": "\u001b[32;5u"
-    },
-    "id": "User.sendInput.E116B028"
-  }
-]
+[]
