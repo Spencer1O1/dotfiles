@@ -6,7 +6,8 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.autoindent = true
-vim.opt.smartindent = true
+-- smartindent is C-style ({ } and #). It fights HTML tags and Treesitter.
+vim.opt.smartindent = false
 
 vim.opt.wrap = false
 vim.opt.sidescroll = 1

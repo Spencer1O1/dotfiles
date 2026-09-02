@@ -24,6 +24,12 @@ local parsers = {
   "yaml",
 }
 
+-- Treesitter indent is unreliable for tag languages; use Vim's html/xml indent.
+local skip_ts_indent = {
+  html = true,
+  xml = true,
+}
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -65,7 +71,13 @@ return {
         end
 
         pcall(vim.treesitter.start, buf, lang)
-        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        if skip_ts_indent[lang] then
+          vim.bo[buf].smartindent = false
+          vim.bo[buf].cindent = false
+          vim.cmd("runtime! indent/" .. lang .. ".vim")
+        else
+          vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
       end
 
       vim.api.nvim_create_autocmd("FileType", {

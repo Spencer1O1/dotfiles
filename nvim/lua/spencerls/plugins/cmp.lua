@@ -108,9 +108,18 @@ return {
 					["<CR>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.confirm({ select = true })
-						else
-							fallback()
+							return
 						end
+						local keys = require("spencerls.pairs").enter()
+						if keys == "<CR>" then
+							fallback()
+							return
+						end
+						vim.api.nvim_feedkeys(
+							vim.api.nvim_replace_termcodes(keys, true, false, true),
+							"n",
+							false
+						)
 					end),
 				}),
 				sources = completion_sources,
