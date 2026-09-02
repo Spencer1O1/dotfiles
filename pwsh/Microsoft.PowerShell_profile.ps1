@@ -73,10 +73,13 @@ function prompt {
 }
 
 # Same chords as Neovim: n/p cycle completions, f accepts ghost, Shift-f next word.
-Set-PSReadLineOption -PredictionSource History
-Set-PSReadLineOption -PredictionViewStyle InlineView
+try {
+  Set-PSReadLineOption -PredictionSource History
+  Set-PSReadLineOption -PredictionViewStyle InlineView
+} catch {
+}
 
-Set-PSReadLineKeyHandler -Chord Ctrl+n -Function TabCompleteNext
-Set-PSReadLineKeyHandler -Chord Ctrl+p -Function TabCompletePrevious
-Set-PSReadLineKeyHandler -Chord Ctrl+f -Function AcceptSuggestion
-Set-PSReadLineKeyHandler -Chord Ctrl+Shift+f -Function AcceptNextSuggestionWord
+Set-PSReadLineKeyHandler -Key 'Ctrl+n' -Function TabCompleteNext
+Set-PSReadLineKeyHandler -Key 'Ctrl+p' -Function TabCompletePrevious
+Set-PSReadLineKeyHandler -Key 'Ctrl+f' -Function AcceptSuggestion
+Set-PSReadLineKeyHandler -Key 'Ctrl+Shift+f' -Function AcceptNextSuggestionWord

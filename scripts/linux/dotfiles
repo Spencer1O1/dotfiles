@@ -11,4 +11,8 @@ echo "Pulling Windows dotfiles..."
 powershell.exe -NoProfile -Command 'cd $HOME\dotfiles; git restore nvim/lazy-lock.json 2>$null; git pull'
 
 echo
+echo "Updating PowerShell profile..."
+powershell.exe -NoProfile -Command 'Copy-Item $HOME\dotfiles\pwsh\Microsoft.PowerShell_profile.ps1 $PROFILE -Force'
+
+echo
 echo "Done."
