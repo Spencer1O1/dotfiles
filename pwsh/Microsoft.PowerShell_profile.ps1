@@ -72,9 +72,11 @@ function prompt {
   return " "
 }
 
-# Ctrl+F for ghost text
-Set-PSReadLineKeyHandler -Key Ctrl+f -Function AcceptSuggestion
-Set-PSReadLineKeyHandler -Key Alt+f -Function AcceptNextSuggestionWord
+# Same chords as Neovim: n/p cycle completions, f accepts ghost, Shift-f next word.
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle InlineView
 
-# Ctrl+G for autocomplete menu (shell + Neovim)
-Set-PSReadLineKeyHandler -Chord 'Ctrl+g' -Function MenuComplete
+Set-PSReadLineKeyHandler -Chord Ctrl+n -Function TabCompleteNext
+Set-PSReadLineKeyHandler -Chord Ctrl+p -Function TabCompletePrevious
+Set-PSReadLineKeyHandler -Chord Ctrl+f -Function AcceptSuggestion
+Set-PSReadLineKeyHandler -Chord Ctrl+Shift+f -Function AcceptNextSuggestionWord

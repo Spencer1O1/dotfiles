@@ -16,6 +16,9 @@
     "keys": "ctrl+/"
   },
   {
+    "keys": "ctrl+shift+f"
+  },
+  {
     "id": "Terminal.DuplicatePaneAuto",
     "keys": "alt+shift+d"
   }
