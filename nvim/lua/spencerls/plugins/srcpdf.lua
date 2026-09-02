@@ -1,18 +1,18 @@
--- Consumer of srcpdf.nvim (plugin lives in ~/nvim-pdf). Keymap lives here.
+-- Consumer of srcpdf.nvim. Keymap lives here.
 local keymap = require("spencerls.keymap")
 
 return {
 	{
-		dir = vim.fn.expand("~/nvim-pdf"),
+		"Spencer1O1/nvim-pdf",
 		name = "srcpdf.nvim",
-		ft = { "tex", "plaintex" },
+		ft = { "tex", "plaintex", "markdown", "html" },
 		opts = {},
 		keys = {
 			keymap.leader("p", function()
 				require("srcpdf").open()
 			end, {
 				lazy = true,
-				desc = "Open sibling PDF",
+				desc = "Open PDF",
 			}),
 		},
 	},
