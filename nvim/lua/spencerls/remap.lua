@@ -22,6 +22,18 @@ keymap.set("<C-c>", [["+y]], {
 	desc = "Copy to clipboard",
 })
 
+-- Leader before y / yy / Y uses the system clipboard (operator, like y).
+keymap.leader("y", [["+y]], {
+	mode = { "n", "v" },
+	desc = "Yank to clipboard",
+})
+keymap.leader("Y", [["+yg$]], {
+	desc = "Yank to end of line (clipboard)",
+})
+keymap.leader("<C-y>", "<cmd>%yank +<CR>", {
+	desc = "Yank file to clipboard",
+})
+
 -- Delete without copy
 
 keymap.leader("d", [["_d]], {

@@ -1,3 +1,14 @@
+## Neovim cheat sheet
+
+A landscape PDF of the Neovim keybinds, in the same style as the secure-vim packet:
+
+```
+python3 -m pip install reportlab
+python3 ~/dotfiles/scripts/build_nvim_cheatsheet.py
+```
+
+Writes `output/pdf/nvim-cheatsheet.pdf`.
+
 ## Linux / WSL Setup
 ```
 cd ~

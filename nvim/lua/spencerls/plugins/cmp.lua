@@ -43,9 +43,31 @@ return {
 				return true
 			end
 
+			local function open_menu()
+				cmp.complete({
+					reason = cmp.ContextReason.Manual,
+					config = { sources = completion_sources },
+				})
+			end
+
+			local function expand_pair(fallback)
+				local keys = require("spencerls.pairs").enter()
+				if keys == "<CR>" then
+					fallback()
+					return
+				end
+				vim.api.nvim_feedkeys(
+					vim.api.nvim_replace_termcodes(keys, true, false, true),
+					"n",
+					false
+				)
+			end
+
 			cmp.setup({
+				preselect = cmp.PreselectMode.Item,
 				completion = {
 					autocomplete = false,
+					completeopt = "menu,menuone,noinsert",
 				},
 				window = {
 					completion = cmp.config.window.bordered(),
@@ -56,72 +78,44 @@ return {
 						luasnip.lsp_expand(args.body)
 					end,
 				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-Space>"] = cmp.mapping(function()
+				mapping = {
+					["<C-n>"] = cmp.mapping(function()
+						if cmp.visible() then
+							cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+						else
+							open_menu()
+						end
+					end, { "i", "s" }),
+					["<C-p>"] = cmp.mapping(function()
+						if cmp.visible() then
+							cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+						else
+							open_menu()
+						end
+					end, { "i", "s" }),
+					["<Esc>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.abort()
 							return
 						end
-						cmp.complete({
-							reason = cmp.ContextReason.Manual,
-							config = { sources = completion_sources },
-						})
+						fallback()
 					end, { "i", "s" }),
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expandable() then
-							luasnip.expand()
-						elseif luasnip.locally_jumpable(1) then
-							luasnip.jump(1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<C-S-f>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							fallback()
-							return
-						end
-						if not accept_supermaven(true) then
-							fallback()
-						end
-					end),
 					["<C-f>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
-							fallback()
+							cmp.confirm({ select = true })
 							return
 						end
 						if not accept_supermaven(false) then
 							fallback()
 						end
-					end),
-					["<CR>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.confirm({ select = true })
-							return
-						end
-						local keys = require("spencerls.pairs").enter()
-						if keys == "<CR>" then
+					end, { "i", "s" }),
+					["<C-S-f>"] = cmp.mapping(function(fallback)
+						if not accept_supermaven(true) then
 							fallback()
-							return
 						end
-						vim.api.nvim_feedkeys(
-							vim.api.nvim_replace_termcodes(keys, true, false, true),
-							"n",
-							false
-						)
-					end),
-				}),
+					end, { "i", "s" }),
+					["<CR>"] = cmp.mapping(expand_pair, { "i", "s" }),
+				},
 				sources = completion_sources,
 			})
 
