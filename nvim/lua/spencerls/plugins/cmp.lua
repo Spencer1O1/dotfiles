@@ -17,6 +17,9 @@ return {
 			local suggestion = require("supermaven-nvim.completion_preview")
 
 			require("luasnip.loaders.from_vscode").lazy_load()
+			require("luasnip.loaders.from_lua").lazy_load({
+				paths = { vim.fn.stdpath("config") .. "/lua/spencerls/snippets" },
+			})
 
 			local completion_sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
