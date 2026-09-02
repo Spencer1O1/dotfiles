@@ -14,6 +14,7 @@ local servers = {
 	"gopls",
 	"phpactor",
 	"tailwindcss",
+	"texlab",
 }
 
 return {
