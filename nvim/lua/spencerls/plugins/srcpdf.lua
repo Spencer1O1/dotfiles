@@ -3,8 +3,7 @@ local keymap = require("spencerls.keymap")
 
 return {
 	{
-		"Spencer1O1/nvim-pdf",
-		name = "srcpdf.nvim",
+		"Spencer1O1/srcpdf.nvim",
 		ft = { "tex", "plaintex", "markdown", "html" },
 		opts = {},
 		keys = {
