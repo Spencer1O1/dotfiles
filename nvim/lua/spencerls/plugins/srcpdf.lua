@@ -7,13 +7,13 @@ return {
 		ft = { "tex", "plaintex", "markdown", "html" },
 		opts = {},
 		keys = {
-			keymap.leader("p", function()
+			keymap.leader("so", function()
 				require("srcpdf").open()
 			end, {
 				lazy = true,
 				desc = "Open PDF",
 			}),
-			keymap.leader("P", function()
+			keymap.leader("sb", function()
 				require("srcpdf").build()
 			end, {
 				lazy = true,
